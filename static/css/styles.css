@@ -1,100 +1,98 @@
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --background-light: #f0f4f8;
-    --text-color: #1a2b3c;
-    --accent-color: #6a11cb;
-    --border-radius: 12px;
+    /* Expanded Color Palette */
+    --color-primary: #5e3ce4;
+    --color-secondary: #00c9a7;
+    --color-accent-1: #ff4d79;
+    --color-accent-2: #4d79ff;
+    --color-background: #f4f6fc;
+    --color-text-dark: #1a2b3c;
+    --color-text-light: #4a5568;
+
+    /* Advanced Design Tokens */
+    --border-radius-soft: 16px;
+    --border-radius-sharp: 8px;
     --transition-speed: 0.3s;
-    --box-shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.08);
-    --box-shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.12);
+    --font-primary: 'Inter', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Vibrant Gradient Animations */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes gradientFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+@keyframes colorPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 body {
-    font-family: 'Circular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: linear-gradient(45deg, var(--background-light), #e6f2ff, var(--background-light));
-    background-size: 200% 200%;
-    color: var(--text-color);
-    line-height: 1.6;
+    font-family: var(--font-primary);
+    background: linear-gradient(
+        135deg, 
+        var(--color-background), 
+        color-mix(in srgb, var(--color-primary) 10%, white)
+    );
+    background-size: 400% 400%;
+    color: var(--color-text-dark);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    animation: gradientFlow 15s ease infinite;
-    perspective: 1000px;
+    animation: gradientShift 15s ease infinite;
+    transition: all 0.5s ease;
 }
 
 .container {
     width: 100%;
-    max-width: 500px;
-    background: rgba(255, 255, 255, 0.9);
+    max-width: 520px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--border-radius-soft);
     padding: 40px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow-subtle);
-    transform-style: preserve-3d;
-    transform: rotateX(-10deg);
-    opacity: 0;
-    animation: 
-        fadeInUp 0.8s forwards ease-out,
-        pulse 3s infinite ease-in-out;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 
+        0 15px 35px rgba(50, 50, 93, 0.1), 
+        0 5px 15px rgba(0, 0, 0, 0.07);
+    position: relative;
+    overflow: hidden;
+    transform: perspective(1000px) translateZ(0);
     transition: all var(--transition-speed) ease;
 }
 
-.container:hover {
-    transform: rotateX(0) scale(1.02);
-    box-shadow: var(--box-shadow-hover);
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(
+        to right, 
+        var(--color-primary), 
+        var(--color-secondary), 
+        var(--color-accent-1), 
+        var(--color-accent-2)
+    );
+    background-size: 300% 100%;
+    animation: gradientShift 5s ease infinite;
 }
 
 h1 {
     text-align: center;
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    font-size: 2.2rem;
+    background: linear-gradient(
+        45deg, 
+        var(--color-primary), 
+        var(--color-accent-1)
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 30px;
-    font-weight: 700;
-    font-size: 2.2rem;
     letter-spacing: -1px;
+    font-weight: 700;
     position: relative;
-    animation: fadeInUp 0.6s delay 0.2s both;
 }
 
 h1::after {
@@ -102,9 +100,13 @@ h1::after {
     position: absolute;
     bottom: -10px;
     left: 50%;
-    width: 60px;
+    width: 80px;
     height: 4px;
-    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    background: linear-gradient(
+        to right, 
+        var(--color-primary), 
+        var(--color-secondary)
+    );
     transform: translateX(-50%);
 }
 
@@ -116,47 +118,43 @@ form {
 
 label {
     font-weight: 600;
-    color: var(--text-color);
-    transform: translateX(15px);
-    opacity: 0;
-    animation: fadeInUp 0.5s forwards ease-out delay 0.4s;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+    transition: color var(--transition-speed) ease;
+}
+
+input, button {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-sharp);
+    font-size: 16px;
+    transition: all var(--transition-speed) ease;
 }
 
 input {
-    padding: 15px 20px;
-    border: 2px solid transparent;
-    border-radius: var(--border-radius);
-    font-size: 16px;
-    background: rgba(240, 248, 255, 0.7);
-    transition: all var(--transition-speed) ease;
-    outline: none;
-    transform: translateY(10px);
-    opacity: 0;
-    animation: fadeInUp 0.6s forwards ease-out delay 0.6s;
+    background: color-mix(in srgb, var(--color-secondary) 10%, white);
+    border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
 }
 
 input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    transform: scale(1.02);
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
 button {
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    background: linear-gradient(
+        45deg, 
+        var(--color-primary), 
+        var(--color-accent-1)
+    );
     color: white;
     border: none;
-    padding: 15px 25px;
-    border-radius: var(--border-radius);
     cursor: pointer;
-    font-size: 17px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all var(--transition-speed) ease;
-    transform: translateY(20px);
-    opacity: 0;
-    animation: fadeInUp 0.7s forwards ease-out delay 0.8s;
-    background-size: 200% auto;
+    letter-spacing: 1.5px;
     position: relative;
     overflow: hidden;
 }
@@ -168,17 +166,24 @@ button::before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    background: linear-gradient(
+        120deg, 
+        transparent, 
+        rgba(255,255,255,0.3), 
+        transparent
+    );
     transition: all var(--transition-speed) ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 7px 14px color-mix(in srgb, var(--color-primary) 30%, transparent),
+        0 3px 6px color-mix(in srgb, var(--color-accent-1) 30%, transparent);
 }
 
 button:hover::before {
     left: 100%;
-}
-
-button:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
 }
 
 @media screen and (max-width: 600px) {
