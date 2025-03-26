@@ -5,7 +5,7 @@ import random
 import string
 
 
-host_link = "https://api-grandma-phpu.onrender.com/"
+host_link = "https://topurl.onrender.com/"
 
 
 def init_routes(app):
